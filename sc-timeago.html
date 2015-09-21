@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
 -->
 <link rel="import" href="../polymer/polymer.html" />
-<script src="../moment/min/moment.min.js"></script>
+<script src="../moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="sc-timeago">
   <template><time datetime="[[datetime]]">[[timeago]]</time></template>
@@ -37,7 +37,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       isPast: {
         type: Boolean,
         value: false
-      }
+      },
+	  locale: {
+		type: String,
+		value: null
+	  }
     },
 
     observers: [
@@ -46,7 +50,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     ],
 
     ready: function () {
-      var m = window.moment(this.datetime);
+      moment.locale(this.locale);
+	  var m = window.moment(this.datetime);
 
       if (this.isPast) {
         m = window.moment.max(m, window.moment());
